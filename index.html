@@ -13,6 +13,7 @@
   --cream:#F0ECE6; --white:#fff; --ink:#14212E; --muted:#6C7C8C;
   --line:rgba(27,58,92,.14);
   --qc:#2E7D32; --enc:#1565C0; --lin:#7B1FA2;
+  --ok:#17703C; --ok-cl:#E9F6EE; --ok-ln:#BCE3CB; --gold-dk:#D98A18;
   --shadow:0 10px 28px rgba(18,41,63,.10);
 }
 *{box-sizing:border-box}
@@ -168,6 +169,60 @@ main{max-width:1520px; margin:0 auto; padding:34px 28px 70px}
 }
 .link:hover{color:var(--red); border-color:var(--red)}
 
+/* ---------- PRONTA ENTREGA / FATURAMENTO IMEDIATO ---------- */
+.hero-selo{
+  display:inline-flex; align-items:center; gap:11px; margin:0 0 20px;
+  background:var(--gold); color:#4A2A00; border-radius:999px; padding:10px 20px;
+  font-family:'Fredoka',sans-serif; font-weight:600; font-size:15.5px;
+  letter-spacing:.12em; text-transform:uppercase; line-height:1;
+  box-shadow:0 10px 26px rgba(240,160,48,.36);
+}
+.hero-selo .pt{
+  width:9px; height:9px; border-radius:50%; background:#1B7A3E;
+  box-shadow:0 0 0 3px rgba(27,122,62,.28); animation:pulso 1.9s infinite;
+}
+@keyframes pulso{0%,100%{box-shadow:0 0 0 3px rgba(27,122,62,.28)}50%{box-shadow:0 0 0 9px rgba(27,122,62,0)}}
+
+.faixa{
+  background:var(--gold); color:#3A2200;
+  border-top:3px solid var(--gold-dk); border-bottom:3px solid var(--gold-dk);
+}
+.faixa-in{
+  max-width:1520px; margin:0 auto; padding:16px 28px;
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+}
+.faixa-selo{
+  flex:0 0 auto; background:var(--red); color:#fff; line-height:1;
+  font-family:'Fredoka',sans-serif; font-weight:700; font-size:21px; letter-spacing:.1em;
+  text-transform:uppercase; padding:11px 19px; border-radius:10px;
+}
+.faixa-txt{flex:1; min-width:250px; margin:0; font-size:16px; line-height:1.4; font-weight:700}
+.faixa-txt b{
+  display:block; font-family:'Fredoka',sans-serif; font-weight:600;
+  font-size:20px; letter-spacing:-.01em; color:var(--navy-2); margin-bottom:2px;
+}
+.faixa-pts{list-style:none; margin:0; padding:0; display:flex; gap:8px; flex-wrap:wrap}
+.faixa-pts li{
+  background:rgba(255,255,255,.58); border:1px solid rgba(58,34,0,.18); border-radius:8px;
+  padding:6px 12px; font-size:13px; font-weight:800; letter-spacing:.01em; white-space:nowrap;
+}
+
+.selo{
+  position:absolute; top:12px; right:12px; z-index:2;
+  background:var(--ok); color:#fff; font-family:'Fredoka',sans-serif;
+  font-size:10.5px; font-weight:600; letter-spacing:.11em; text-transform:uppercase;
+  padding:5px 10px; border-radius:6px; box-shadow:0 4px 12px rgba(23,112,60,.32);
+}
+.estoque{
+  display:flex; align-items:center; gap:8px; margin:0;
+  background:var(--ok-cl); border:1px solid var(--ok-ln); border-radius:8px;
+  padding:8px 11px; font-size:12.8px; font-weight:800; color:#14562F;
+}
+.estoque .ck{
+  flex:0 0 auto; width:18px; height:18px; border-radius:50%; background:var(--ok); color:#fff;
+  display:inline-flex; align-items:center; justify-content:center; font-size:11px; line-height:1;
+}
+
 /* ---------- LIGHTBOX ---------- */
 .lb{
   position:fixed; inset:0; z-index:90; background:rgba(18,41,63,.93);
@@ -236,6 +291,18 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
   .ean{font-size:5.8pt; letter-spacing:.02em}
   .link{font-size:6.6pt; border-bottom-width:1px; white-space:nowrap}
 
+  /* pronta entrega */
+  .hero-selo{font-size:8.5pt; padding:1.5mm 3mm; margin-bottom:2.5mm; box-shadow:none; letter-spacing:.09em}
+  .hero-selo .pt{display:none}
+  .faixa{border-top-width:1.2px; border-bottom-width:1.2px; break-inside:avoid; page-break-inside:avoid}
+  .faixa-in{max-width:none; padding:2.4mm 0; gap:4mm}
+  .faixa-selo{font-size:11pt; padding:1.4mm 3mm; border-radius:5px}
+  .faixa-txt{font-size:7.8pt; min-width:60mm} .faixa-txt b{font-size:10.5pt}
+  .faixa-pts{gap:1.5mm} .faixa-pts li{font-size:6.8pt; padding:1px 5px; border-radius:4px}
+  .selo{font-size:5.6pt; padding:2px 5px; top:1.5mm; right:1.5mm; border-radius:4px; box-shadow:none; letter-spacing:.06em}
+  .estoque{font-size:6.2pt; padding:1mm 1.6mm; gap:4px; border-radius:5px}
+  .estoque .ck{width:9px; height:9px; font-size:5.4pt}
+
   footer{background:#fff; color:var(--muted); border-top:1px solid #ccc; padding:5mm 0 0; margin-top:6mm; break-inside:avoid}
   .foot-in{max-width:none; font-size:7.5pt}
   .foot-in b{color:var(--navy)}
@@ -265,6 +332,7 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
     <div class="hero-grid">
       <div class="hero-txt">
         <h1>Segunda onda<em>de lançamentos 2026</em></h1>
+        <span class="hero-selo"><span class="pt" aria-hidden="true"></span>Pronta entrega · faturamento imediato</span>
         <div class="stats">
           <span class="stat"><b>10</b>REFERÊNCIAS</span>
           <span class="stat"><b>4</b>QUEBRA-CABEÇAS</span>
@@ -280,6 +348,18 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
     <path d="M0,34 C180,72 340,4 540,26 C740,48 880,72 1080,44 C1240,22 1350,34 1440,44 L1440,70 L0,70 Z" fill="#F0ECE6"/>
   </svg>
 </header>
+
+<section class="faixa" aria-label="Disponibilidade">
+  <div class="faixa-in">
+    <span class="faixa-selo">Pronta entrega</span>
+    <p class="faixa-txt"><b>Faturamento imediato — já temos estoque.</b>Não é pré-venda: o pedido entra e é faturado na hora, sem esperar programação de produção.</p>
+    <ul class="faixa-pts">
+      <li>✔ Estoque disponível</li>
+      <li>✔ <b id="faixa-n">—</b> referências prontas</li>
+      <li>✔ Faturamento no mesmo pedido</li>
+    </ul>
+  </div>
+</section>
 
 <nav class="bar">
   <div class="bar-in">
@@ -348,16 +428,16 @@ function aplicaFoto(img, f){
    p18 = ICMS 18% | p12rs = 12% RS | p12 = 12% SC/PR/SP/RJ/MG | p7 = 7% N/NE
    ============================================================ */
 const PRECOS = {
-  "20787":{p18:null,p12rs:null,p12:null,p7:null},
-  "20776":{p18:null,p12rs:null,p12:null,p7:null},
-  "20765":{p18:null,p12rs:null,p12:null,p7:null},
-  "20643":{p18:null,p12rs:null,p12:null,p7:null},
-  "20732":{p18:null,p12rs:null,p12:null,p7:null},
-  "20754":{p18:null,p12rs:null,p12:null,p7:null},
-  "20743":{p18:null,p12rs:null,p12:null,p7:null},
-  "20721":{p18:null,p12rs:null,p12:null,p7:null},
-  "52821":{p18:65.30,p12rs:62.00,p12:62.00,p7:59.20},
-  "54721":{p18:null,p12rs:null,p12:null,p7:null}
+  "20787":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
+  "20776":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
+  "20765":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
+  "20643":{p18:35.80,p12rs:34.00,p12:34.00,p7:32.50},
+  "20732":{p18:23.30,p12rs:22.90,p12:22.90,p7:21.70},
+  "20754":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
+  "20743":{p18:28.50,p12rs:27.90,p12:27.90,p7:26.50},
+  "20721":{p18:22.20,p12rs:21.90,p12:21.90,p7:20.70},
+  "52821":{p18:49.90,p12rs:49.00,p12:49.00,p7:46.50},
+  "54721":{p18:23.30,p12rs:22.90,p12:22.90,p7:21.70}
 };
 const ICMS_LABEL = {p18:"ICMS 18%", p12rs:"ICMS 12% · RS", p12:"ICMS 12% · SC/PR/SP/RJ/MG", p7:"ICMS 7% · N/NE"};
 let icms = "p18";
@@ -463,6 +543,10 @@ async function sincronizarFotos(){
   if(mudou) render();
 }
 
+/* Pronta entrega: vale para todos por padrão.
+   Para tirar o selo de um item, basta acrescentar  estoque:false  na linha do produto. */
+const temEstoque = p => p.estoque !== false;
+
 function precoDe(ref){
   const t = PRECOS[ref];
   const v = t ? t[icms] : null;
@@ -473,6 +557,7 @@ function card(p, i){
   return `<article class="card" data-i="${i}">
     <div class="ph" data-open="${i}">
       <span class="tag ${p.tagc}">${p.tag}</span>
+      ${temEstoque(p) ? `<span class="selo">Pronta entrega</span>` : ''}
       <img src="${srcOriginal(p.imgs[0])}" onerror="${onErr(p.imgs[0])}" alt="${p.ref} ${p.nome}" loading="lazy">
       ${p.imgs.length>1 ? `<div class="dots">${p.imgs.map((_,k)=>`<button class="dot ${k?'':'on'}" data-i="${i}" data-k="${k}" aria-label="Foto ${k+1}"></button>`).join('')}</div>` : ''}
     </div>
@@ -487,6 +572,7 @@ function card(p, i){
         <span class="preco${precoDe(p.ref)===null?' consulta':''}">${precoDe(p.ref)===null?'Sob consulta':fmt(precoDe(p.ref))}</span>
         <span class="preco-lbl">${ICMS_LABEL[icms]}<br>sem IPI</span>
       </div>
+      ${temEstoque(p) ? `<p class="estoque"><span class="ck" aria-hidden="true">✔</span><span>Em estoque · faturamento imediato</span></p>` : ''}
       <div class="foot">
         <span class="ean">EAN ${p.ean}</span>
         <a class="link" href="${p.url}" target="_blank" rel="noopener">Ficha completa</a>
@@ -512,6 +598,7 @@ function render(){
 }
 
 // contadores
+document.getElementById('faixa-n').textContent = PRODUTOS.filter(temEstoque).length;
 document.getElementById('n-all').textContent = PRODUTOS.length;
 ['qc','enc','blo'].forEach(c=>{
   document.getElementById('n-'+c).textContent = PRODUTOS.filter(p=>p.cat===c).length;
