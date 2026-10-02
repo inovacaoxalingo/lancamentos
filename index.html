@@ -321,6 +321,31 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
 .print-meta,.print-nota{display:none}
 .sec-icms{display:none}
 
+
+/* ---------- CONDIÇÕES DE PAGAMENTO (promoção) ---------- */
+.cond{background:var(--navy-2); color:#fff}
+.cond[hidden]{display:none}
+.cond-in{
+  max-width:1520px; margin:0 auto; padding:16px 28px;
+  display:flex; align-items:center; gap:14px 22px; flex-wrap:wrap;
+}
+.cond-tit{
+  flex:0 0 auto; font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--gold); line-height:1.35
+}
+.cond-lista{display:flex; gap:12px; flex-wrap:wrap; flex:1}
+.cond-item{
+  flex:1 1 320px; display:flex; align-items:center; gap:14px;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:12px; padding:11px 16px;
+}
+.cond-valor{display:flex; flex-direction:column; line-height:1.1; flex:0 0 auto}
+.cond-valor small{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.7)}
+.cond-valor b{font-family:'Fredoka',sans-serif; font-weight:600; font-size:24px; color:#fff}
+.cond-seta{color:var(--gold); font-size:20px; font-weight:800; flex:0 0 auto}
+.cond-pag{display:flex; flex-direction:column; line-height:1.2; min-width:0}
+.cond-pag small{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.7)}
+.cond-pag b{font-size:16px; font-weight:800; color:var(--gold)}
+
 /* ---------- PROMOÇÃO ---------- */
 .hero.promo .hero-selo{background:#fff; color:var(--red); box-shadow:0 10px 26px rgba(0,0,0,.22)}
 .hero.promo .hero-selo .pt{background:var(--red); box-shadow:0 0 0 3px rgba(160,30,30,.25); animation:none}
@@ -386,6 +411,18 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
   }
   .faixa.promo{display:none !important}
 
+
+  /* ===== PROMOÇÃO · condições de pagamento ===== */
+  .cond{background:none !important; color:var(--navy); break-inside:avoid}
+  .cond-in{max-width:none; padding:2.6mm 0 0; gap:2.5mm 3.5mm; flex-wrap:nowrap}
+  .cond-tit{font-size:6.4pt; color:var(--navy); letter-spacing:.08em; flex:0 0 26mm}
+  .cond-lista{gap:2.5mm; flex-wrap:nowrap}
+  .cond-item{flex:1 1 0; gap:2mm; padding:1.6mm 2.6mm; border-radius:1.6mm; background:#FCF2EF; border:.6pt solid #E8C9C1}
+  .cond-valor small,.cond-pag small{font-size:5.8pt; color:var(--muted)}
+  .cond-valor b{font-size:10.5pt; color:var(--navy); white-space:nowrap}
+  .cond-seta{font-size:10pt; color:var(--red)}
+  .cond-pag b{font-size:7.6pt; color:var(--red); white-space:nowrap}
+
   /* ===== PROMOÇÃO · seções ===== */
   .g5-wrap{padding-top:1mm}
   .g5-wrap .sec-head{margin:3.4mm 0 1.8mm; gap:2.5mm}
@@ -396,7 +433,7 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
   /* ===== PROMOÇÃO · cards ===== */
   .grid.g5{grid-template-columns:repeat(5,1fr) !important; gap:2.2mm}
   .card.pr{border:.6pt solid #DCD5CB; border-radius:2.2mm; background:#fff}
-  .g5 .ph{height:27mm; background:#fff}
+  .g5 .ph{height:26mm; background:#fff}
   .g5 .ph img{padding:1.4mm}
   .card.pr .tag,.card.pr .foot,.card.pr .depor .preco-lbl{display:none}
   .off{
@@ -465,6 +502,13 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
   </div>
 </section>
 
+<section class="cond" id="cond" aria-label="Condições de pagamento" hidden>
+  <div class="cond-in">
+    <span class="cond-tit">Condições de<br>pagamento</span>
+    <div class="cond-lista" id="condLista"></div>
+  </div>
+</section>
+
 <nav class="bar">
   <div class="bar-in">
     <span id="chips" style="display:contents"></span>
@@ -527,7 +571,14 @@ function aplicaFoto(img, f){
    produto aparecer sem foto, acrescente na linha dele:
        url:"https://produtosxalingo.oneweb.com.br/...ficha..."
    ############################################################## */
-const PROMO_VALIDADE = "";   // ex.: "31/10/2026" — vazio = não mostra validade
+const PROMO_VALIDADE = "";
+
+/* Condições de pagamento da promoção (aparecem na tela e no PDF).
+   Para mudar, edite os valores e os meses abaixo. */
+const PROMO_CONDICOES = [
+  { acima:"R$ 2.500,00", pagamento:"dezembro / janeiro / fevereiro" },
+  { acima:"R$ 3.500,00", pagamento:"janeiro / fevereiro / março" }
+];   // ex.: "31/10/2026" — vazio = não mostra validade
 
 const PROMO = [
   { ref:"68510", r2:"6851.0", nome:"BINGO SHOW – 24 CARTELAS", cat:"jog", p12:[50.70,29.40], p7:[50.70,29.40] },
@@ -760,6 +811,14 @@ function pintarCabecalho(){
   faixa.classList.toggle('promo', aba==='promo');
   document.title = ABAS[aba].titulo;
   const hoje = new Date().toLocaleDateString('pt-BR');
+  const cond = document.getElementById('cond');
+  cond.hidden = !(aba==='promo' && PROMO_CONDICOES.length);
+  document.getElementById('condLista').innerHTML = PROMO_CONDICOES.map(c=>`
+    <div class="cond-item">
+      <span class="cond-valor"><small>Pedidos acima de</small><b>${c.acima}</b></span>
+      <span class="cond-seta" aria-hidden="true">→</span>
+      <span class="cond-pag"><small>Pagamento para</small><b>${c.pagamento}</b></span>
+    </div>`).join('');
   if(aba==='promo'){
     document.getElementById('pmeta').innerHTML =
       `<b>${PROMO.length}</b> referências · até <b>${maiorDesconto()}%</b> de desconto · tabela <span class="pm-icms">${icmsLabel()}</span> valores sem IPI · ${hoje}` +
