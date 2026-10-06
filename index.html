@@ -161,6 +161,13 @@ main{max-width:1520px; margin:0 auto; padding:34px 28px 70px}
 }
 .aviso b{display:block; font-family:'Fredoka',sans-serif; font-weight:600; letter-spacing:.06em; color:var(--red); font-size:12px; text-transform:uppercase; margin-bottom:2px}
 .aviso .ico{font-size:15px; line-height:1.2}
+.specs{margin:0; border:1px solid var(--line); border-radius:8px; padding:7px 11px 8px; display:grid; gap:3px; font-size:12.3px}
+.specs .sp-h{font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--navy); margin-bottom:2px}
+.specs .sp-h small{font-weight:700; letter-spacing:.04em; color:var(--muted); text-transform:none; margin-left:4px}
+.specs div{display:flex; justify-content:space-between; gap:8px; align-items:baseline}
+.specs dt{color:var(--muted); font-weight:700}
+.specs dd{margin:0; color:var(--navy); font-weight:800; white-space:nowrap; font-variant-numeric:tabular-nums}
+.card.pr .specs{font-size:11.8px; padding:6px 10px 7px}
 .foot{display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:10px; border-top:1px solid var(--line)}
 .ean{font-size:11.5px; color:var(--muted); letter-spacing:.05em; font-weight:700}
 .link{
@@ -287,6 +294,10 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
   .preco{font-size:11.5pt}
   .preco.consulta{font-size:8pt}
   .preco-lbl{font-size:5.4pt; letter-spacing:.05em}
+  .specs{font-size:6pt; padding:1mm 1.6mm 1.2mm; gap:.3mm; border-radius:5px; border-color:#e6e1da}
+  .specs .sp-h{font-size:5.4pt; letter-spacing:.05em; margin-bottom:.2mm}
+  .specs .sp-h small{font-size:5pt; margin-left:2px}
+  .specs div{gap:3px}
   .foot{padding-top:1.6mm; gap:5px}
   .ean{font-size:5.8pt; letter-spacing:.02em}
   .link{font-size:6.6pt; border-bottom-width:1px; white-space:nowrap}
@@ -450,6 +461,8 @@ footer{background:var(--navy); color:rgba(255,255,255,.8); padding:34px 28px}
     margin:1mm -2.2mm 0; padding:1.3mm 2.2mm 1.5mm; border:0; border-top:.6pt dashed #E3C4BD;
     border-radius:0; background:#FCF2EF
   }
+  .card.pr .specs{font-size:5.5pt; padding:.8mm 1.3mm .9mm; margin-top:.4mm; border-radius:1.2mm}
+  .card.pr .specs .sp-h{font-size:5pt} .card.pr .specs .sp-h small{display:none}
   .vals{gap:.5mm}
   .de-l{font-size:7pt; font-weight:600; color:#4F5D69}
   .de-l s{text-decoration-thickness:.6px; text-decoration-color:rgba(160,30,30,.85)}
@@ -623,6 +636,53 @@ const SECOES_PROMO = [
   { id:"art", titulo:"Arte e pintura" }
 ];
 
+/* ============================================================
+   LOGÍSTICA — embalagem, caixa master e qtd por caixa (C × L × A, mm).
+   Fonte: Relatório Produto 360 (Oracle consulta 35) · 06/10/2026.
+   null = dado ausente/inválido no cadastro (a linha some do card).
+   ============================================================ */
+const LOGISTICA = {
+  "13287":{emb:[190,40,260], cx:[270,250,200], qtd:6},
+  "20510":{emb:[200,180,5], cx:[205,140,170], qtd:20},
+  "12332":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "52832":{emb:[235,80,311], cx:[315,250,485], qtd:6},
+  "13487":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "17587":{emb:[240,60,180], cx:[370,190,250], qtd:6},
+  "17665":{emb:[430,60,385], cx:[390,260,440], qtd:4},
+  "11298":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "20521":{emb:[200,180,10], cx:[200,180,250], qtd:20},
+  "13476":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "15343":{emb:[360,60,300], cx:[370,310,370], qtd:6},
+  "52665":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "4421":{emb:[180,60,180], cx:[370,190,190], qtd:6},
+  "12998":{emb:[260,245,65], cx:[270,250,265], qtd:4},
+  "67843":{emb:[420,60,300], cx:[310,250,430], qtd:4},
+  "12976":{emb:[405,60,300], cx:[310,260,420], qtd:4},
+  "53221":{emb:[430,385,60], cx:[440,390,400], qtd:4},
+  "65554":{emb:null, cx:[290,135,280], qtd:12},
+  "51587":{emb:[185,55,40], cx:[245,115,190], qtd:12},
+  "67809":{emb:[310,60,235], cx:[320,245,385], qtd:6},
+  "20509":{emb:[200,180,42], cx:[320,215,275], qtd:20},
+  "17632":{emb:[350,60,270], cx:[380,285,360], qtd:6},
+  "20165":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "65543":{emb:null, cx:[290,135,280], qtd:12},
+  "17654":{emb:[240,80,150], cx:[310,255,245], qtd:6},
+  "17621":{emb:[300,60,240], cx:[370,250,310], qtd:6},
+  "67976":{emb:[350,60,270], cx:[380,285,360], qtd:6},
+  "11643":{emb:[360,60,300], cx:[370,310,370], qtd:6},
+  "20532":{emb:[220,180,8], cx:[200,180,250], qtd:20},
+  "20787":{emb:[180,60,120], cx:[370,190,250], qtd:12},
+  "20776":{emb:[180,60,120], cx:[370,190,250], qtd:12},
+  "20765":{emb:[180,60,120], cx:[370,190,250], qtd:12},
+  "20643":{emb:[300,60,180], cx:[370,190,310], qtd:6},
+  "20732":{emb:[180,60,180], cx:[370,190,190], qtd:6},
+  "20754":{emb:[185,55,40], cx:[245,115,190], qtd:12},
+  "20743":{emb:[180,60,180], cx:[370,190,190], qtd:6},
+  "20721":{emb:[180,60,180], cx:[370,190,190], qtd:6},
+  "52821":{emb:[300,60,240], cx:[370,250,310], qtd:6},
+  "54721":{emb:[240,80,150], cx:[310,255,245], qtd:6}
+};
+
 /* ##############################################################
    ABA 2 — SEGUNDA ONDA DE LANÇAMENTOS
    ############################################################## */
@@ -632,16 +692,16 @@ const SECOES_PROMO = [
    p18 = ICMS 18% | p12rs = 12% RS | p12 = 12% SC/PR/SP/RJ/MG | p7 = 7% N/NE
    ============================================================ */
 const PRECOS = {
-  "20787":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
-  "20776":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
-  "20765":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
+  "20787":{p18:9.40,p12rs:9.00,p12:9.00,p7:8.50},
+  "20776":{p18:9.40,p12rs:9.00,p12:9.00,p7:8.50},
+  "20765":{p18:9.40,p12rs:9.00,p12:9.00,p7:8.50},
   "20643":{p18:35.80,p12rs:34.00,p12:34.00,p7:32.50},
-  "20732":{p18:23.30,p12rs:22.90,p12:22.90,p7:21.70},
-  "20754":{p18:9.10,p12rs:9.00,p12:9.00,p7:8.50},
-  "20743":{p18:28.50,p12rs:27.90,p12:27.90,p7:26.50},
-  "20721":{p18:22.20,p12rs:21.90,p12:21.90,p7:20.70},
-  "52821":{p18:49.90,p12rs:49.00,p12:49.00,p7:46.50},
-  "54721":{p18:23.30,p12rs:22.90,p12:22.90,p7:21.70}
+  "20732":{p18:23.80,p12rs:22.90,p12:22.90,p7:21.50},
+  "20754":{p18:9.40,p12rs:9.00,p12:9.00,p7:8.50},
+  "20743":{p18:29.00,p12rs:27.90,p12:27.90,p7:26.30},
+  "20721":{p18:22.75,p12rs:21.90,p12:21.90,p7:20.60},
+  "52821":{p18:50.90,p12rs:49.00,p12:49.00,p7:46.10},
+  "54721":{p18:23.80,p12rs:22.90,p12:22.90,p7:21.50}
 };
 
 const PRODUTOS = [
@@ -746,6 +806,14 @@ function dotsDe(p,i){
   return p.imgs && p.imgs.length>1
     ? `<div class="dots">${p.imgs.map((_,k)=>`<button class="dot ${k?'':'on'}" data-i="${i}" data-k="${k}" aria-label="Foto ${k+1}"></button>`).join('')}</div>` : '';
 }
+const medida = a => a ? a.join(' × ') : null;
+function specsDe(ref){
+  const L = LOGISTICA[ref]; if(!L) return '';
+  const it = [['Embalagem', medida(L.emb)], ['Caixa master', medida(L.cx)], ['Qtd / caixa', L.qtd ? L.qtd+' un.' : null]]
+    .filter(([,v])=>v);
+  if(!it.length) return '';
+  return `<dl class="specs"><dt class="sp-h">Medidas <small>C × L × A · mm</small></dt>${it.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+}
 function cardLanc(p, i){
   const v = precoDe(p.ref);
   return `<article class="card" data-i="${i}">
@@ -760,6 +828,7 @@ function cardLanc(p, i){
       <h3 class="nome">${p.nome}</h3>
       <p class="desc">${p.desc}</p>
       ${p.aviso ? `<p class="aviso"><span class="ico" aria-hidden="true">⚠</span><span><b>${p.aviso.titulo}</b>${p.aviso.texto}</span></p>` : ''}
+      ${specsDe(p.ref)}
       <div class="precoline">
         <span class="preco${v===null?' consulta':''}">${v===null?'Sob consulta':fmt(v)}</span>
         <span class="preco-lbl">${icmsLabel()}<br>sem IPI</span>
@@ -788,6 +857,7 @@ function cardPromo(p, i){
     <div class="body">
       <div class="refline"><span class="ref">ref. ${p.ref}</span></div>
       <h3 class="nome">${p.nome}</h3>
+      ${specsDe(p.ref)}
       <div class="depor">
         <div class="vals">
           <span class="de-l">De <s>${fmt(de)}</s></span>
